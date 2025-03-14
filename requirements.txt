@@ -1,0 +1,70 @@
+requests
+pandas
+matplotlib
+pyairtable
+google-cloud-secret-manager
+nltk
+textblob
+scikit-learn
+numpy
+airtable-python-wrapper
+google-api-python-client
+airtable-python-wrapper
+annotated-types
+cachetools
+certifi
+charset-normalizer
+click
+colorama
+contourpy
+cycler
+fonttools
+google-ai-generativelanguage
+google-api-core
+google-api-python-client
+google-auth
+google-auth-httplib2
+google-cloud-secret-manager
+google-generativeai
+schedule
+googleapis-common-protos
+grpc-google-iam-v1           0.14.1
+grpcio                       1.70.0
+grpcio-status                1.70.0
+httplib2                     0.22.0
+idna                         3.10
+inflection                   0.5.1
+joblib                       1.4.2
+kiwisolver                   1.4.8
+matplotlib                   3.10.1
+nltk                         3.9.1
+numpy                        2.2.3
+packaging                    24.2
+pandas                       2.2.3
+pillow                       11.1.0
+pip                          24.2
+proto-plus                   1.26.0
+protobuf                     5.29.3
+pyairtable                   3.0.2
+pyasn1                       0.6.1
+pyasn1_modules               0.4.1
+pydantic                     2.10.6
+pydantic_core                2.27.2
+pyparsing                    3.2.1
+python-dateutil              2.9.0.post0
+pytz                         2025.1
+regex                        2024.11.6
+requests                     2.32.3
+rsa                          4.9
+scikit-learn                 1.6.1
+scipy                        1.15.2
+setuptools                   75.8.2
+six                          1.17.0
+textblob                     0.19.0
+threadpoolctl                3.5.0
+tqdm                         4.67.1
+typing_extensions            4.12.2
+tzdata                       2025.1
+uritemplate                  4.1.1
+urllib3                      2.3.0
+wheel                        0.45.1

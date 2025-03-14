@@ -1,0 +1,31 @@
+2025-03-09 10:40:34,316 - INFO - Fetched 500 records from Airtable.
+2025-03-09 10:40:34,326 - INFO - Missing values:
+Date                         0
+Topic                        0
+Subtopic                     5
+Sentiment Index             10
+Current Sentiment Score     15
+Baseline Sentiment Score    20
+Percent Change              25
+Key Drivers                 30
+dtype: int64
+2025-03-09 10:40:34,336 - INFO - Number of duplicate records: 0
+2025-03-09 10:40:34,346 - INFO - Invalid dates:
+Empty DataFrame
+Columns: [Date, Topic, Subtopic, Sentiment Index, Current Sentiment Score, Baseline Sentiment Score, Percent Change, Key Drivers]
+Index: []
+2025-03-09 10:40:34,356 - INFO - Filtered by topic 'US Technology' and subtopic 'Crypto': 50 records
+2025-03-09 10:40:34,366 - INFO - Filtered by topic 'US Technology' and subtopic 'AI': 60 records
+2025-03-09 10:40:34,376 - INFO - Filtered by topic 'US Technology' and subtopic 'Disruptors': 40 records
+2025-03-09 10:40:34,386 - INFO - Index values over time:
+         Date  Sentiment Index
+0  2025-03-01              120
+1  2025-03-02              115
+2  2025-03-03              110
+3  2025-03-04              105
+4  2025-03-05              100
+2025-03-09 10:40:34,396 - INFO - Aggregated data for visualization:
+           Topic  Sentiment Index
+0  US Technology              110
+1     US Politics              105
+2     US Economy               95

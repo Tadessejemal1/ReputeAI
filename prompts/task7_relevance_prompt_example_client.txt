@@ -1,0 +1,29 @@
+Analyze the text in the Headline column and up to the first 500 words of the Body column.
+
+$Headline: The title of the article/story (provided as a variable)
+$Body: The main text content of the article/story (provided as a variable)
+
+Evaluate the content based on ALL of the following criteria:
+1) Does this article broadly discuss topics related to business or the economy?
+2) Is this substantive editorial content rather than advertisement or fragmented content?
+3) The article is NOT primarily about any of these excluded topics:
+  - Personal finance tips and suggestions
+  - Consumer product announcements and reviews
+
+Scoring system:
+0: Low confidence - Article fails ANY of these conditions:
+  - Not primarily about business/economy, OR
+  - Not substantive editorial content, OR
+  - Primarily focuses on excluded topics
+
+1: Medium confidence - Article meets ALL of these conditions:
+  - Contains some business/economy focus, AND
+  - Is substantive editorial content, AND
+  - Does not primarily focus on excluded topics
+
+2: High confidence - Article meets ALL of these conditions:
+  - Has clear, strong business/economy focus, AND
+  - Is substantive editorial content, AND
+  - Does not primarily focus on excluded topics
+
+Output only the score as a single integer.

@@ -1,0 +1,18 @@
+{
+    "topics": {
+      "US Technology": {
+        "subtopics": ["Crypto", "AI", "Disruptors"]
+      },
+      "US News": {
+        "subtopics": ["Politics", "Economy", "Environment"]
+      },
+      "US Business": {
+        "subtopics": ["Startups", "Finance", "Healthcare"]
+      }
+    },
+    "disruptors": [
+      "Company A",
+      "Company B",
+      "Company C"
+    ]
+  }

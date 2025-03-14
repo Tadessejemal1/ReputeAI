@@ -1,0 +1,104 @@
+Article Sentiment Analysis
+Analyze the sentiment toward the main subject/entity in the article and assess the overall outlook.
+Analysis Focus:
+Identify the main subject of the article from the $Headline and $Body. This could be:
+A company or business
+A person or group of people
+An economic sector or industry
+A market or financial instrument
+A government or regulatory body
+A technology or product
+An economic trend, condition, or concept
+Analyze how this main subject is portrayed in the text (sentiment)
+Evaluate the forward-looking perspective presented about this subject (optimism/pessimism)
+Input Details:
+$Headline: The title of the article/story (provided as a variable)
+$Body: The main text content of the article/story (provided as a variable)
+IMPORTANT: Analyze only the $Headline and the first 750 words of the $Body text when forming your assessment. Ignore any content beyond the first 750 words. Focus specifically on how the main subject/entity is portrayed and what future outlook is presented in this limited portion of text.
+Analytical Framework:
+Important Considerations
+Look beyond simple keyword matching
+A positive or negative tone can exist without explicit evaluative words
+Consider the full context and narrative arc
+Evaluate the substance and meaning, not just terminology
+Analyze how quoted sources are framed and positioned
+Pay attention to what information is emphasized vs. minimized
+Content Interpretation
+Take article language and framing at face value
+Assess as an average informed reader would interpret
+Focus on text evidence, not external knowledge
+Consider both explicit statements and implicit tone
+Evaluate the weight of headline and opening paragraphs
+Account for concluding statements and their impact
+Consider role in events:
+Being affected by vs. causing challenges
+Providing solutions vs. facing problems
+Proactive vs. reactive responses
+Problem solver vs. problem facer
+Victim vs. perpetrator positioning
+Sentiment Weighting
+Higher weight given to:
+Editorial assessment
+Factual outcomes
+Third-party perspectives
+Evidence of actions
+Independent research/studies
+Expert opinions
+Direct quotes and specific examples
+Lower weight given to:
+Unsupported claims
+Standard PR statements
+Self-promotion
+Unverified assertions
+Generic language
+Forward-looking statements
+Output Elements:
+Primary_Character:
+Identify the main subject of the article in 6 words or less
+Be specific and precise (e.g., "Tesla," "Federal Reserve," "US housing market")
+For complex subjects, capture the core entity concisely
+Overall_Sentiment:
+Score from -4 to +4 representing the sentiment toward the main subject/entity
+-4 to -3: Very Negative - Subject is portrayed in an overwhelmingly negative light
+-2.99 to -2: Negative - Subject is clearly portrayed unfavorably
+-1.99 to -1: Slightly Negative - Subject is portrayed more negatively than neutrally
+-0.99 to +0.99: Neutral - Subject is portrayed in a balanced or purely factual manner
++1 to +1.99: Slightly Positive - Subject is portrayed more positively than neutrally
++2 to +2.99: Positive - Subject is clearly portrayed favorably
++3 to +4: Very Positive - Subject is portrayed in an overwhelmingly positive light
+Overall_Description:
+Identify the main subject of the article (company, person, market, government, economic trend, etc.)
+Explain how this subject is portrayed in the text
+Provide high-level summary of the article's perspective on this subject
+Reference specific elements from the text that demonstrate the sentiment
+Opt_Pes_Score: Score from -4 to +4 representing the broader economic/market implications and outlook suggested in the article
+-4 to -3: Very Pessimistic - Article suggests severe negative outcomes for the broader economy/market
+-2.99 to -2: Pessimistic - Article suggests significant negative outcomes for the broader economy/market
+-1.99 to -1: Slightly Pessimistic - Article suggests somewhat negative outcomes for the broader economy/market
+-0.99 to +0.99: Neutral - Article suggests balanced outcomes for the broader economy/market
++1 to +1.99: Slightly Optimistic - Article suggests somewhat positive outcomes for the broader economy/market
++2 to +2.99: Optimistic - Article suggests significant positive outcomes for the broader economy/market
++3 to +4: Very Optimistic - Article suggests exceptional positive outcomes for the broader economy/market
+Opt_Pes_Desc:
+Explain the broader economic/market implications suggested in the article (15-25 words maximum)
+For major economic actors (governments, central banks), focus on their impact on markets/economy
+For individual companies, evaluate them as potential indicators of wider trends
+Be concise and precise to facilitate horizontal trend analysis
+Output format:
+Your analysis must be provided as a valid JSON object with the following structure:
+{
+    "Primary_Character": "Main subject in 6 words or less",
+    "Overall_Sentiment": 0.00,
+    "Overall_Description": "Brief summary and explanation of sentiment assessment",
+    "Opt_Pes_Score": 0.00,
+    "Opt_Pes_Desc": "Explanation of optimism/pessimism assessment"
+}
+JSON Output Requirements:
+Must be valid, properly formatted JSON
+All numeric scores must use exactly 2 decimal places (e.g., -2.75, 0.00, 3.25)
+Use 0.25 increments for all scores
+All string values must be properly escaped
+Overall_Description and Opt_Pes_Desc must be 15-25 words each
+No extra fields, comments, or explanations outside the JSON structure
+No trailing commas
+Include only the JSON object - no markdown, code fences, or other text
