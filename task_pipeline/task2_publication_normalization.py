@@ -1,30 +1,12 @@
 import logging
 import re
-from datetime import datetime, timedelta
-from airtable import Airtable
-from utils.secret_manager import access_secret
-from pipeline.sentiment_analysis import analyze_relevance, analyze_sentiment
-from utils.date_utils import process_date
 from fuzzywuzzy import process
+from utils.fetch_publication import fetch_publication_normalization_dict
 
-from airtable import Airtable
+# Fetch the publication normalization dictionary
+PUBLICATION_NORMALIZATION_DICT = fetch_publication_normalization_dict()
 
-# Publication normalization dictionary
-PUBLICATION_NORMALIZATION_DICT = {
-    "The New York Times": "The New York Times",
-    "TECHNOLOGY RESELLER": "TECHNOLOGY RESELLER",
-    "CNN": "CNN",
-    "Newbury Today": "Newbury Today",
-    "The Wall Street Journal": "The Wall Street Journal",
-    "BBC": "BBC",
-    "WIRED": "WIRED",
-    "NPR": "NPR",
-    "Reuters": "Reuters",
-    "CBS News": "CBS News",
-    "eTeknix": "eTeknix",
-}
-
-def prep_normalize_publication_titles(publication_name):
+def prep_normalize_publication_titles(publication_name, normalization_dict):
     """
     Task 2: Publication Title Normalization
     Standardizes publication names by:
@@ -39,6 +21,7 @@ def prep_normalize_publication_titles(publication_name):
 
     Args:
         publication_name (str): The raw publication name.
+        normalization_dict (dict): The normalization dictionary.
 
     Returns:
         tuple: (normalized_name, score)
@@ -55,11 +38,11 @@ def prep_normalize_publication_titles(publication_name):
     publication_name = publication_name.lower().strip()  # Convert to lowercase and trim whitespace
 
     # Step 2: Use fuzzy matching to find the closest match in the dictionary
-    match, score = process.extractOne(publication_name, PUBLICATION_NORMALIZATION_DICT.keys())
+    match, score = process.extractOne(publication_name, normalization_dict.keys())
 
     # Step 3: Set a threshold for acceptable matches (e.g., 80 out of 100)
     if score >= 80:
-        normalized_name = PUBLICATION_NORMALIZATION_DICT[match]
+        normalized_name = normalization_dict[match]["normalized_name"]
         logging.info(f"Normalized publication name: {publication_name} -> {normalized_name}")
         return normalized_name, 1  # Successfully normalized
     else:

@@ -2,7 +2,7 @@ from google.cloud import secretmanager
 from google.api_core.exceptions import NotFound
 
 # Set your project ID
-PROJECT_ID = "apollo-432603"
+PROJECT_ID = "455738376818"
 
 def access_secret(project_id, secret_name):
     """Access a specific secret's value."""
@@ -17,12 +17,8 @@ def access_secret(project_id, secret_name):
 def list_and_access_secrets():
     """Access multiple specific secrets."""
     secrets_to_access = [
-        "tadesse_airtable_API",
-        "tadesse_openAI_API",
-        "tadesse_google_gemini_API",
-        "tadesse_octoparse_API_token",
-        "tadesse_airtable_base_press_outlets"
-        "Google_Drive_API"
+        "tadesse_airtable_table_publication_dictionary_press_outlets",
+        "tadesse_airtable_base_publication_dictionary"
     ]
     
     for secret_name in secrets_to_access:

@@ -11,6 +11,7 @@ from task_pipeline.task3_catalog_unfamiliar import prep_catalog_unfamiliar_publi
 from task_pipeline.task4_quality_score import prep_assign_quality_scores
 from task_pipeline.task5_Duplicate_check import prep_identify_duplicate_syndicate
 from task_pipeline.task7_Ai_analysis import prep_article_relevance_check
+from utils.fetch_publication import fetch_publication_normalization_dict
 from task_pipeline.task8_Deep_AI_analysis import analyze_sentiment
 # Constants
 PROJECT_ID = "apollo-432603"
@@ -24,7 +25,6 @@ BATCH_SIZE = 5  # Number of records to process per batch
 RETRY_DELAY = 1  # Initial delay for retries (in seconds)
 MAX_RETRIES = 3  # Maximum number of retries for failed requests
 
-
 def store_data_in_airtable(data):
     """
     Store data in Airtable with throttling, batching, and retries.
@@ -34,20 +34,20 @@ def store_data_in_airtable(data):
         # Retrieve the Airtable API key
         airtable_api_key = access_secret(PROJECT_ID, AIRTABLE_SECRET_NAME)
         airtable = Airtable(AIRTABLE_BASE_KEY, AIRTABLE_TABLE_NAME, api_key=airtable_api_key)
+        
+        # Initialize a list to store all processed records
+        all_records = []
+        normalization_dict = fetch_publication_normalization_dict()
 
-        # Process records through tasks
+        # Define the context for catalog and duplicate checks
         context = {
-            "catalog": [
-                "BBC", "CNN", "New York Times", "The Wall Street Journal", "Reuters",
-                "WIRED", "NPR", "CBS News", "eTeknix", "The Guardian",
-                "The Washington Post", "Bloomberg", "Forbes", "Financial Times",
-                "TechCrunch", "Engadget", "Vox", "The Verge", "Business Insider",
-                "Ars Technica", "Mashable", "Gizmodo", "CNET", "ZDNet"
-            ], 
+            "catalog": [],  # Empty catalog, as we fetch it dynamically
             "catalog_additions": [], 
             "duplicate_pairs": [], 
             "records": data
         }
+        
+        skipped_records = []
 
         # Process records in batches
         for i in range(0, len(data), BATCH_SIZE):
@@ -63,18 +63,28 @@ def store_data_in_airtable(data):
                             # Task 1: Auto Delete Short Body Text
                             record["Auto_Delete_Short_Body_Text"] = auto_delete_short_body_text(record, airtable)
                             if record["Auto_Delete_Short_Body_Text"] == 0:
+                                logging.info(f"Skipping further processing for record with short body text: {record.get('Headline', '')}")
                                 continue  # Skip further processing for records with short body text
+# Task 4: Assign Publication Quality Score
+                            # Task 4: Assign Publication Quality Score
+                            quality_score = prep_assign_quality_scores(record, context)
+                            record["Prep_Assign_Quality_Scores"] = quality_score
 
                             # Task 2: Publication Title Normalization
-                            normalized_name, score = prep_normalize_publication_titles(record.get("Publication", ""))
-                            record["Publication"] = normalized_name  # Update the publication name
-                            record["Prep_Normalize_Publication_Titles"] = score  # Store the score
+                            publication = record.get("Publication", "")
+                            normalized_name, score = prep_normalize_publication_titles(publication, normalization_dict)
+                            record["Publication"] = normalized_name
+                            record["Prep_Normalize_Publication_Titles"] = score
 
                             # Other tasks
                             record["Pre_Check_Null_Values"] = pre_check_null_values(record)
-                            record["Prep_Catalog_Unfamiliar_Publications"] = prep_catalog_unfamiliar_publications(record, context)
-                            record["Prep_Assign_Quality_Scores"] = prep_assign_quality_scores(record)
-                            record["Prep_Identify_Duplicate_Syndicate"] = score = prep_identify_duplicate_syndicate(record, context["records"])
+                            # Task 3: Catalog Unfamiliar Publications
+                            catalog_score = prep_catalog_unfamiliar_publications(record, context)
+                            record["Prep_Catalog_Unfamiliar_Publications"] = catalog_score
+                            record["Prep_Assign_Quality_Scores"] = prep_assign_quality_scores(record, context)
+                            duplicate_syndicate_score = prep_identify_duplicate_syndicate(record, all_records)
+                            logging.info(f"Prep_Identify_Duplicate_Syndicate score store to: {duplicate_syndicate_score}")
+                            record["Prep_Identify_Duplicate_Syndicate"] = duplicate_syndicate_score
                             record["Prep_Article_Relevance_Check"] = prep_article_relevance_check(record)
 
                             # Process the date string to extract only the date part
@@ -106,13 +116,11 @@ def store_data_in_airtable(data):
                             except ValueError:
                                 logging.warning(f"Invalid Overall_Sentiment value: {overall_sentiment}")
                                 overall_sentiment = None
-
                             try:
                                 opt_pes_score = float(opt_pes_score) if opt_pes_score else None
                             except ValueError:
                                 logging.warning(f"Invalid Opt_Pes_Score value: {opt_pes_score}")
                                 opt_pes_score = None
-
                             try:
                                 relevance_score = int(relevance_score) if relevance_score else None
                             except ValueError:
@@ -159,10 +167,10 @@ def store_data_in_airtable(data):
                                 "AI - Analysis - Results": json.dumps(record.get("Sentiment Data", {})),
                             }
 
-                            # Insert the record into Airtable
+                            # Inside the store_data_in_airtable function
+                            logging.info(f"Storing record with Prep_Identify_Duplicate_Syndicate score: {record['Prep_Identify_Duplicate_Syndicate']}")
                             airtable.insert(airtable_record)
                             logging.info(f"Successfully inserted record into Airtable with RequestId: {request_id}")
-
                         except Exception as e:
                             logging.error(f"Error inserting record into Airtable: {e}")
 

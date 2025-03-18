@@ -32,6 +32,7 @@ logging.basicConfig(
 # List of task IDs to fetch data from
 TASK_IDS = [
     # "c1db3e19-6adb-413d-9b6e-dc6c0b00eaaa",  # Example task ID
+    # "549c677b-1495-40fe-80b6-dea66185254f"
     "bff732d8-cb71-4c48-9eeb-fcf9bcad06b8",  # Example task ID
     # "96826ce7-30b2-4e96-9149-5e1224482a4d"
 ]
@@ -53,7 +54,7 @@ def main():
     for task_id in TASK_IDS:
         logging.info(f"Fetching data for task ID: {task_id}")
         # Fetch data from Octoparse
-        data, request_id = fetch_data_from_octoparse(task_id, size=5)
+        data, request_id = fetch_data_from_octoparse(task_id, size=1)
 
         if data:
             for record in data:
@@ -96,8 +97,9 @@ def main():
                     logging.info(f"Skipping sentiment analysis for record with score: {duplicate_syndicate_score}")
                     
                 # Store the record in Airtable (regardless of score)
+             # Step 4: Store the record in Airtable (regardless of score)
                 store_data_in_airtable([record])
-                all_data.append(record)
+                all_data.append(record)  # Add the new record to all_data for future comparisons
         else:
             logging.warning(f"No data fetched for task ID: {task_id}")
     
