@@ -57,7 +57,6 @@ def fetch_publication_normalization_dict():
             normalized_name = variations.split(",")[0].strip()  # Use the first variation
             logging.warning(f"Using first variation as normalized name for record: {record.get('id')}")
         else:
-            logging.warning(f"Missing 'primary_name', 'original_name', and 'variations' in record: {record.get('id')}")
             continue  # Skip this record
 
         # Add `original_name` as a raw name if it exists

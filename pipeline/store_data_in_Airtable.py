@@ -10,9 +10,9 @@ from task_pipeline.task2_publication_normalization import prep_normalize_publica
 from task_pipeline.task3_catalog_unfamiliar import prep_catalog_unfamiliar_publications
 from task_pipeline.task4_quality_score import prep_assign_quality_scores
 from task_pipeline.task5_Duplicate_check import prep_identify_duplicate_syndicate
-from task_pipeline.task7_Ai_analysis import prep_article_relevance_check
+from task_pipeline.task5_Duplicate_check import prep_identify_duplicate_syndicate
 from utils.fetch_publication import fetch_publication_normalization_dict
-from task_pipeline.task8_Deep_AI_analysis import analyze_sentiment
+from task_pipeline.task6_Relevant_Check import prep_article_relevance_check
 # Constants
 PROJECT_ID = "apollo-432603"
 AIRTABLE_SECRET_NAME = "tadesse_airtable_API"
