@@ -54,7 +54,7 @@ def main():
     for task_id in TASK_IDS:
         logging.info(f"Fetching data for task ID: {task_id}")
         # Fetch data from Octoparse
-        data, request_id = fetch_data_from_octoparse(task_id, size=1)
+        data, request_id = fetch_data_from_octoparse(task_id, size=50)
 
         if data:
             for record in data:
